@@ -4,7 +4,7 @@ import pymysql
 # to get username and connection screen
 username = os.getenv('c9_user')
 connection = pymysql.connect(host='localhost',
-                             user=username, password='',
+                             user="root", password='',
                              db='Chinook')
 
 # # to return Genre
