@@ -7,6 +7,7 @@ connection = pymysql.connect(host='localhost',
                              user="root", password='',
                              db='Chinook')
 
+
 # # to return Genre
 # try:
 #     with connection.cursor() as cursor:
@@ -16,6 +17,7 @@ connection = pymysql.connect(host='localhost',
 #         result = cursor.fetchall()
 #         print(result)
 
+
 # # to return tag name
 # try: 
 #     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -24,15 +26,15 @@ connection = pymysql.connect(host='localhost',
 #         for row in cursor:
 #             print(row)
 
-# to add table
+
+# CREATE table
 # try:
 #       with connection.cursor() as cursor:
 #         cursor.execute("""CREATE TABLE IF NOT EXISTS
 #                           Friends(name char(20), age int, DOB datetime);""")
         # Note that the above will still display a warning (not error) if the
 
-
-# to add rows
+# CREATE rows
 # try:
 #     with connection.cursor() as cursor:
 #        # Insert
@@ -52,16 +54,64 @@ connection = pymysql.connect(host='localhost',
 # finally:
 #     connection.close()
 
+
+# UPDATE eg 1
+# try: 
+#     with connection.cursor() as cursor:
+#         # # method 1
+#         # sql = "UPDATE Friends SET age = 22 WHERE name = 'bob';"
+#         # cursor.execute(sql)
+#         # method 2 - shorthand
+#         cursor.execute("UPDATE Friends SET age = %s WHERE name = %s;", (21, 'bob'))
+#         connection.commit()
+#         print(cursor.rowcount, "record(s) affected")
+# finally:
+#     connection.close()
+
+# UPDATE eg 2 - insert multi records
+# try: 
+#     with connection.cursor() as cursor:
+#         rows = [(21, 'bob'),
+#                 (21, 'jim'),
+#                 (21, 'fred'),]
+#         cursor.executemany("UPDATE Friends SET age = %s WHERE name = %s;", rows)
+#         connection.commit()
+#         print(cursor.rowcount, "record(s) affected")
+# finally:
+#     connection.close()
+
+
+# DESTROY/DELETE method 1
 try: 
     with connection.cursor() as cursor:
-        sql = "UPDATE Friends SET age = 22 WHERE name = 'bob';"
+        sql = "Delete from Friends where name = 'bob'"
         cursor.execute(sql)
         connection.commit()
         print(cursor.rowcount, "record(s) affected")
 finally:
     connection.close()
 
-# # dictionary vs value only eg
+# DESTROY/DELETE method 2
+try: 
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM Friends WHERE name = %s;", ['bob','jim'])
+        connection.commit()
+        print(cursor.rowcount, "record(s) affected")
+finally:
+    connection.close()
+
+# DESTROY/DELETE multi value
+try: 
+    with connection.cursor() as cursor:
+        rows = ['bob', 'jim']
+        cursor.executemany("DELETE FROM Friends WHERE name = %s;", rows)
+        connection.commit()
+        print(cursor.rowcount, "record(s) affected")
+finally:
+    connection.close()
+
+
+# # dictionary vs value-only eg
 # try:
 #     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
 #         sql = "select * from Artist limit 5;"
