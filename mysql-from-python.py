@@ -111,7 +111,7 @@ finally:
     connection.close()
 
 
-# # dictionary vs value-only eg
+# # dictionary vs value-only display eg
 # try:
 #     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
 #         sql = "select * from Artist limit 5;"
