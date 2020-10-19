@@ -32,14 +32,25 @@ connection = pymysql.connect(host='localhost',
 #         # Note that the above will still display a warning (not error) if the
 
 # to add rows
+# try:
+#     with connection.cursor() as cursor:
+#         rows = [("bob", 21, "1990-02-06 23:04:56"),
+#                 ("jim", 56, "1955-05-09 13:12:45"),
+#                 ("fred", 100, "1911-09-12 01:01:01")]
+#         cursor.executemany("INSERT INTO Friends VALUES (%s,%s,%s);", rows)
+#         connection.commit()
+#         print(cursor.rowcount, "record(s) affected")
+
+# finally:
+#     connection.close()
+
+
 try:
-    with connection.cursor() as cursor:
-        rows = [("bob", 21, "1990-02-06 23:04:56"),
-                ("jim", 56, "1955-05-09 13:12:45"),
-                ("fred", 100, "1911-09-12 01:01:01")]
-        cursor.executemany("INSERT INTO Friends VALUES (%s,%s,%s);", rows)
-        connection.commit()
-        print(cursor.rowcount, "record(s) affected")
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "select * from Artist limit 5;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        print(result)
 
 finally:
     connection.close()
