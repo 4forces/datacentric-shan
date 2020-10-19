@@ -81,7 +81,7 @@ connection = pymysql.connect(host='localhost',
 #     connection.close()
 
 
-# DESTROY/DELETE method 1
+# DESTROY/DELETE
 try: 
     with connection.cursor() as cursor:
         sql = "Delete from Friends where name = 'bob'"
@@ -91,7 +91,7 @@ try:
 finally:
     connection.close()
 
-# DESTROY/DELETE method 2
+# DESTROY/DELETE multi value method 1
 try: 
     with connection.cursor() as cursor:
         cursor.execute("DELETE FROM Friends WHERE name = %s;", ['bob','jim'])
@@ -100,7 +100,7 @@ try:
 finally:
     connection.close()
 
-# DESTROY/DELETE multi value
+# DESTROY/DELETE multi value method 2
 try: 
     with connection.cursor() as cursor:
         rows = ['bob', 'jim']
