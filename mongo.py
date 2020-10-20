@@ -41,24 +41,41 @@ def add_record():
     dob = input("Enter date of birth > ")
     gender = input("Enter gender > ")
     hair_colour = input("Enter hair colour > ")
-    occupation = input("Enter occupatoin > ")
+    occupation = input("Enter occupation > ")
     nationality = input("Enter nationality > ")
 
-    new_doc = {'first':first,'last':last,'dob':dob,'gender':gender,'hair_colour':hair_colour,'occupation':occupation,'nationality':nationality}
+    new_doc = {'first':first.lower(),'last':last.lower(),'dob':dob,'gender':gender,'hair_colour':hair_colour,'occupation':occupation,'nationality':nationality}
 
     try:
-        coll.insert(new_doc)
+        coll.insert_one(new_doc)
         print("")
         print("Doc inserted")
     except: 
         print("Error connecting to database")
 
 
+def get_record():
+    print("")
+    first = input("Enter first name > ")
+    # last = input("Enter last name > ")
+    print(first)
+
+    try:
+        doc = coll.find_one({'first':first})
+    except:
+        print("error")
+    if not doc: # if doc is empty
+        print("")
+        print("Error: No result found")
+    return doc
+
+
 def find_record():
-    if doc:
+    doc = get_record()
+    if doc: # if doc is not empty
         print("")
         for k,v in doc.items():
-            if k != "_id":
+            if k != "_id": # dont print if key is not "_id"
                 print(k + ": " + v)
 
 
@@ -83,6 +100,3 @@ conn = mongo_connect(MONGODB_URI)
 coll = conn[DBS_NAME][COLLECTION_NAME]
 
 main_loop()
-        
-
-
