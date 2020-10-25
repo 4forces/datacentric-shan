@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table>
+    {% for task in tasks %}
+    <tr>
+    Name: {{ task.task_name }}<br>
+    Gender: {{ task.gender }}<br>
+    Age: {{ task.age }}<br>
+    Occupation: {{ task.occupation }}<br>
+    Salary: {{ task.salary }}<br>
+    </tr>
+    <br>
+    {% endfor %}
+</table>
+{% endblock %}
